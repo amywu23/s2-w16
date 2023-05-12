@@ -6,15 +6,15 @@ import java.util.*;
 
 public class BarChartEarthquakes extends ApplicationFrame {
   //LOOK HERE
-  private ImportData id = new ImportData("https://think.cs.vt.edu/corgis/datasets/csv/earthquakes/earthquakes.csv");
+  private ImportData id = new ImportData("https://think.cs.vt.edu/corgis/datasets/csv/county_demographics/county_demographics.csv");
   
   //STUDY THIS
   public BarChartEarthquakes() {
       super( "Earthquake Frequency" );        
       JFreeChart barChart = ChartFactory.createBarChart(
-         "YOUR TITLE",           
-         "NAME OF X-AXIS",            
-         "NAME OF Y-AXIS",            
+         "# of Household in Counties in California and Texas",           
+         "State",            
+         "Number of Households",            
          createDataset(id.getData()),    //NOTICE THIS !      
          PlotOrientation.VERTICAL,           
          true, true, false);
@@ -44,13 +44,24 @@ public class BarChartEarthquakes extends ApplicationFrame {
 
       //Create a dataset --
       for(Record r : records){
-         String state = r.getValueByIndex(9);
-         String hour = r.getValueByIndex(13);
-         String year = r.getValueByIndex(5);
-         int delaysCarrier = Integer.parseInt(r.getValueByIndex(6));
+         String county = r.getValueByIndex(0);
+         String state = r.getValueByIndex(1);
+         
+         int household = Integer.parseInt(r.getValueByIndex(17));
 
-         if(state.equals("California") && hour.equals("5")){
-            dataset.addValue(delaysCarrier, airport, year);
+         if(county.equals("Alameda County") && state.equals("CA")){
+            dataset.addValue(household, county, state);
+         }
+
+         if(county.equals("Contra Costa County") && state.equals("CA")){
+            dataset.addValue(household, county, state);
+         }
+
+         if(county.equals("Dallas County") && state.equals("TX")){
+            dataset.addValue(household, county, state);
+         }
+         if(county.equals("Harrison County") && state.equals("TX")){
+            dataset.addValue(household, county, state);
          }
       }
       return dataset; 
