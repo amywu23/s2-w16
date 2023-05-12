@@ -4,16 +4,16 @@ import org.jfree.data.category.*;
 import org.jfree.ui.*; 
 import java.util.*;
 
-public class BarChartEarthquakes extends ApplicationFrame {
+public class BarChartDemographics extends ApplicationFrame {
   //LOOK HERE
   private ImportData id = new ImportData("https://think.cs.vt.edu/corgis/datasets/csv/county_demographics/county_demographics.csv");
   
   //STUDY THIS
-  public BarChartEarthquakes() {
-      super( "Earthquake Frequency" );        
+  public BarChartDemographics() {
+      super( "Califor Demographics" );        
       JFreeChart barChart = ChartFactory.createBarChart(
-         "# of Household in Counties in California and Texas",           
-         "State",            
+         "# of Households in California Counties with more than 25% of seniors (aged 65+)",           
+         "",            
          "Number of Households",            
          createDataset(id.getData()),    //NOTICE THIS !      
          PlotOrientation.VERTICAL,           
@@ -48,26 +48,17 @@ public class BarChartEarthquakes extends ApplicationFrame {
          String state = r.getValueByIndex(1);
          
          int household = Integer.parseInt(r.getValueByIndex(17));
+         double olderThan65 = Double.parseDouble(r.getValueByIndex(2));
 
-         if(county.equals("Alameda County") && state.equals("CA")){
-            dataset.addValue(household, county, state);
-         }
-
-         if(county.equals("Contra Costa County") && state.equals("CA")){
+         if(state.equals("CA") && olderThan65 >= 25){
             dataset.addValue(household, county, state);
          }
 
-         if(county.equals("Dallas County") && state.equals("TX")){
-            dataset.addValue(household, county, state);
-         }
-         if(county.equals("Harrison County") && state.equals("TX")){
-            dataset.addValue(household, county, state);
-         }
       }
       return dataset; 
    }
 
    public static void main(String[] args) {
-      new BarChartEarthquakes();
+      new BarChartDemographics();
    }
 }
